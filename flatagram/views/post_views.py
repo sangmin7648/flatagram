@@ -2,8 +2,9 @@ from flask import Blueprint, render_template, url_for, request, flash, current_a
 from werkzeug.utils import redirect, secure_filename
 import os
 import shutil
+import re
 from datetime import datetime
-from flatagram.models import Posts, Comments, db
+from flatagram.models import Posts, Comments, Hashtags,db
 from flatagram.forms import UploadForm, CommentForm
 from .auth_views import login_required
 
@@ -23,8 +24,18 @@ def detail(post_id, form=None):
 def upload():
     form = UploadForm()
     if request.method == 'POST' and form.validate_on_submit():
-        post = Posts(user=g.user, desc=form.desc.data, created_date=datetime.now())
+        desc = form.desc.data
+        post = Posts(user=g.user, desc=desc, created_date=datetime.now())
         db.session.add(post)
+        if '#' in desc:
+            hashtag_list = extract_hashtag(desc)
+            for hashtag in hashtag_list:
+                tag = Hashtags.query.filter_by(tag_text=hashtag).first()
+                if tag is None:
+                    tag = Hashtags(tag_text=hashtag)
+                    db.session.add(tag)
+                    db.session.commit()
+                tag.post.append(post)
         db.session.commit()
         os.mkdir(os.path.join(current_app.config['UPLOAD_FOLDER'], str(post.id)))
         for file in form.img.data:
@@ -46,13 +57,24 @@ def modify(post_id):
     if g.user != post.user:
         flash('수정 권한이 없습니다')
         return redirect(url_for('post.detail', post_id=post_id))
-    if request == 'POST':
+    if request.method == 'POST':
         form = UploadForm()
         if form.validate_on_submit():
             form.populate_obj(post)
             post.updated_date = datetime.now()
+            desc = post.desc
+            if '#' in desc:
+                hashtag_list = extract_hashtag(desc)
+                for hashtag in hashtag_list:
+                    tag = Hashtags.query.filter_by(tag_text=hashtag).first()
+                    if tag is None:
+                        tag = Hashtags(tag_text=hashtag)
+                        db.session.add(tag)
+                        db.session.commit()
+                    tag.post.append(post)
             db.session.commit()
             return redirect(url_for('post.detail', post_id=post_id))
+
     else:
         form = UploadForm(obj=post)
     return render_template('posts/post_form.html', form=form)
@@ -70,3 +92,8 @@ def delete(post_id):
         db.session.delete(post)
         db.session.commit()
     return redirect(url_for('main.home'))
+
+
+def extract_hashtag(desc):
+    hashtag_list = re.findall('#[\w]*', desc)
+    return hashtag_list

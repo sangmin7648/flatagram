@@ -1,15 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="container my-3">
+<div class="container">
 <!-- 유저 검색 결과 -->
-    <div class="card">
+    <div class="card my-3">
         <div class="card-header">
         유저 검색 결과
         </div>
         {% for user in user_list %}
             <div class="card-body my-3">
                 <a href="{{ url_for('user.profile', name=user.name) }}">{{ user.name }}</a>
+            </div>
+        {% endfor %}
+    </div>
+<!-- 해시태그 검색 결과 -->
+    <div class="card my-3">
+        <div class="card-header">
+        해시태그 검색 결과
+        </div>
+        {% for hashtag in hashtag_list %}
+            <div class="card-body my-3">
+                <a href="{{ url_for('explore.render_hashtag_explore', hashtag=hashtag.tag_text) }}">{{ hashtag.tag_text }}</a>
             </div>
         {% endfor %}
     </div>

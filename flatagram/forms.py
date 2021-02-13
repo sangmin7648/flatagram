@@ -9,9 +9,9 @@ from werkzeug.utils import secure_filename
 
 class UploadForm(FlaskForm):
     img = MultipleFileField('이미지', validators=[
-        # FileRequired(message='파일을 선택하세요'),
-        # FileAllowed(['jpg', 'jpeg', 'png'], '이미지 파일만 업로드 가능합니다')
-    ])
+        FileAllowed(['jpg', 'jpeg', 'png'], '이미지 파일만 업로드 가능합니다'),
+        DataRequired()
+        ])
     desc = TextAreaField('설명')
 
 

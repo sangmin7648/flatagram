@@ -30,6 +30,12 @@ follow_table = db.Table(
     db.Column('following_id', db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
 )
 
+hashtag_post_table = db.Table(
+    'hashtag_post',
+    db.Column('post_id', db.Integer,  db.ForeignKey('posts.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('hashtag_id', db.Integer, db.ForeignKey('hashtags.id', ondelete='CASCADE'), primary_key=True)
+)
+
 
 class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -87,3 +93,9 @@ class Messages(db.Model):
     recipient_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     text = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime())
+
+
+class Hashtags(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    tag_text = db.Column(db.String(50), nullable=False)
+    post = db.relationship('Posts', secondary=hashtag_post_table, backref=db.backref('post_hashtag_set'))

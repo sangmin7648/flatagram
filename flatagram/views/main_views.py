@@ -15,7 +15,7 @@ def home():
     if g.user:
         follow_id_list = [user.id for user in g.user.following]
         follow_id_list.append(g.user.id)
-        post_list = db.session.query(Posts).filter(Posts.user_id.in_(follow_id_list)).all()
+        post_list = db.session.query(Posts).filter(Posts.user_id.in_(follow_id_list)).order_by(Posts.created_date.desc()).all()
         return render_template('home.html', post_list=post_list)
     else:
         return redirect(url_for('auth.login'))

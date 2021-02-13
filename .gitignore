@@ -1,0 +1,5 @@
+.idea
+flatagram.db
+*.pyc
+__pycache__
+venv

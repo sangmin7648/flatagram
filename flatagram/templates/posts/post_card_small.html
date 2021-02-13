@@ -1,0 +1,9 @@
+<div class="card" style="width: 20rem;">
+    <img class="card-img-top" src="/static/img/post/{{ post.id }}/{{ file_list[0] }}"
+         alt="">
+    <div class="card-body">
+        Like {{ post.like | length }}
+        Comment {{ post.comment_set | length }}
+    </div>
+    <a href="{{ url_for('post.detail', post_id=post.id) }}" class="stretched-link"></a>
+</div>

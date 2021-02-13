@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="card-columns">
+        {% for post in explore_post_set %}
+            {% set file_list = post.file_name.split(',') %}
+            {% with post=post, file_list=file_list %}
+                {% include "posts/post_card_small.html" %}
+            {% endwith %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

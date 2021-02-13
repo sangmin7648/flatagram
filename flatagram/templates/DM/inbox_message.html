@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    {% for msg in messages %}
+        <div class="card">
+            {{ msg.sender_id }}
+            {{ msg.text }}
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

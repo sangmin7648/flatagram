@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- post section -->
+{% if post_list %}
+    <div class="container">
+        {% for post in post_list %}
+            {% set file_list = post.file_name.split(',') %}
+            {% with post=post, file_list=file_list %}
+                {% include '/posts/post_card.html' %}
+            {% endwith %}
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}

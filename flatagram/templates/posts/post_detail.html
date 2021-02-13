@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <!-- Post section -->
+    {% set file_list = post.file_name.split(',') %}
+    {% with post=post, file_list=file_list %}
+        {% include '/posts/post_card_expanded.html' %}
+    {% endwith %}
+    <!-- CommentForm section -->
+    {% if g.user %}
+    <div class="card mt-3">
+        <div class="card-body">
+        <form action="{{ url_for('comment.create', post_id=post.id) }}" method="post">
+            {{ form.csrf_token }}
+            {{ form.comment(class="form-control") }}
+            <input class="mt-3" type="submit" value="댓글등록">
+        </form>
+        </div>
+    </div>
+    {% else %}
+    <div class="card mt-3">
+        <div class="card-body">
+        <fieldset disabled="disabled">
+            <form action="{{ url_for('comment.create', post_id=post.id) }}" method="post">
+                {{ form.csrf_token }}
+                {{ form.comment(class="form-control", placeholder="로그인 후 이용하실 수 있습니다") }}
+                <input class="mt-3" type="submit" value="댓글등록">
+            </form>
+        </fieldset>
+        </div>
+    </div>
+    {% endif %}
+    <!-- Comment section -->
+    {% if post.comment_set %}
+        {% for comment in post.comment_set %}
+        {% with comment=comment %}
+            {% include '/comments/comment_card.html' %}
+        {% endwith %}
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

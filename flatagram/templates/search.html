@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container my-3">
+<!-- 유저 검색 결과 -->
+    <div class="card">
+        <div class="card-header">
+        유저 검색 결과
+        </div>
+        {% for user in user_list %}
+            <div class="card-body my-3">
+                <a href="{{ url_for('user.profile', name=user.name) }}">{{ user.name }}</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

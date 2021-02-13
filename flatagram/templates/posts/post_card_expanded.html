@@ -1,0 +1,35 @@
+<div class="card mt-3">
+    <div class="card-header">
+        <div>
+            <h6><strong><a href="{{ url_for('user.profile', name=post.user.name) }}">{{ post.user.name }}</a></strong></h6>
+        </div>
+        <div class="d-flex justify-content-end">
+            {% if g.user == post.user %}
+            <a class="btn btn-primary mr-2" href="{{ url_for('post.modify', post_id=post.id) }}">수정</a>
+            <a class="btn btn-primary" href="{{ url_for('post.delete', post_id=post.id) }}">삭제</a>
+            {% else %}
+                {% if post.user not in g.user.following %}
+                <a class="btn btn-primary" href="{{ url_for('user.follow', follow_name=post.user.name) }}">팔로우</a>
+                {% else %}
+                <a class="btn btn-primary" href="{{ url_for('user.unfollow', unfollow_name=post.user.name) }}">언팔로우</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    {% for file_name in file_list %}
+    <img class="card-img-top"
+         src="/static/img/post/{{ post.id }}/{{ file_name }}"
+         alt="image loading failed">
+    {% endfor %}
+    <div class="card-body">
+        <div>
+            <a class="btn btn-primary" href="{{ url_for('like.post', post_id=post.id) }}">좋아요</a>
+        </div>
+        <div>
+            <strong>{{ post.like | length }} likes</strong>
+        </div>
+        <div>
+            <p class="card-text">{{ post.desc }}</p>
+        </div>
+    </div>
+</div>

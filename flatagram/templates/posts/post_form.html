@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="card mt-3">
+        <form enctype="multipart/form-data" method="post">
+            {% for field, errors in form.errors.items() %}
+            <div class="alert alert-danger" role="alert">
+                <strong>{{ form[field].label }}</strong>: {{ ', '.join(errors) }}
+            </div>
+            {% endfor %}
+
+            {{ form.csrf_token }}
+
+            {{ form.img.label }}
+            {{ form.img(class="form-control") }}
+
+            {{ form.desc.label }}
+            {{ form.desc(class="form-control") }}
+
+            <button type="submit" class="btn btn-primary">업로드</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

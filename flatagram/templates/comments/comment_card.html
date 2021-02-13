@@ -1,0 +1,9 @@
+<div class="card my-3">
+    <div class="card-body">
+        <p> <strong>{{ comment.user.name }}</strong> {{ comment.comment }}</p>
+        {% if g.user == comment.user %}
+        <a class="btn btn-primary" href="{{ url_for('comment.modify', comment_id=comment.id) }}">수정</a>
+        <a class="btn btn-primary" href="{{ url_for('comment.delete', comment_id=comment.id) }}">삭제</a>
+        {% endif %}
+    </div>
+</div>

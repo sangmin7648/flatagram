@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>{{ recipient }}에게 DM 보내기</h1>
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            {{ form.csrf_token }}
+            {{ form.message.label }}
+            {{ form.message(class="form-control") }}
+            <button type="submit" class="btn btn-primary mt-3">전송</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -3,3 +3,4 @@ flatagram.db
 *.pyc
 __pycache__
 venv
+/flatagram/static/img

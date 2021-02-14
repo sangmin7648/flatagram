@@ -30,9 +30,10 @@ def upload():
         if '#' in desc:
             hashtag_list = extract_hashtag(desc)
             for hashtag in hashtag_list:
-                tag = Hashtags.query.filter_by(tag_text=hashtag).first()
+                tag_text = hashtag[1:]
+                tag = Hashtags.query.filter_by(tag_text=tag_text).first()
                 if tag is None:
-                    tag = Hashtags(tag_text=hashtag)
+                    tag = Hashtags(tag_text=tag_text)
                     db.session.add(tag)
                     db.session.commit()
                 tag.post.append(post)
@@ -66,9 +67,10 @@ def modify(post_id):
             if '#' in desc:
                 hashtag_list = extract_hashtag(desc)
                 for hashtag in hashtag_list:
-                    tag = Hashtags.query.filter_by(tag_text=hashtag).first()
+                    tag_text = hashtag[1:]
+                    tag = Hashtags.query.filter_by(tag_text=tag_text).first()
                     if tag is None:
-                        tag = Hashtags(tag_text=hashtag)
+                        tag = Hashtags(tag_text=tag_text)
                         db.session.add(tag)
                         db.session.commit()
                     tag.post.append(post)
@@ -92,6 +94,24 @@ def delete(post_id):
         db.session.delete(post)
         db.session.commit()
     return redirect(url_for('main.home'))
+
+
+@bp.route('/save/<int:post_id>')
+@login_required
+def save(post_id):
+    post = Posts.query.get_or_404(post_id)
+    g.user.saved_post.append(post)
+    db.session.commit()
+    return redirect(request.referrer)
+
+
+@bp.route('/unsave/<int:post_id>')
+@login_required
+def unsave(post_id):
+    post = Posts.query.get_or_404(post_id)
+    g.user.saved_post.remove(post)
+    db.session.commit()
+    return redirect(request.referrer)
 
 
 def extract_hashtag(desc):

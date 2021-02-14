@@ -9,7 +9,13 @@ bp = Blueprint('user', __name__, url_prefix='/user')
 @bp.route('/<string:name>/')
 def profile(name):
     user = Users.query.filter_by(name=name).first()
-    return render_template('profile.html', user=user)
+    return render_template('profile.html', user=user, post_list=user.post_set)
+
+
+@bp.route('/<string:name>/saved')
+def profile_saved(name):
+    user = Users.query.filter_by(name=name).first()
+    return render_template('profile.html', user=user, post_list=user.saved_post)
 
 
 @bp.route('/follow/<follow_name>')

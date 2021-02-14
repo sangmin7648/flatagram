@@ -23,9 +23,12 @@
         {% endif %}
     </div>
     <hr>
+    <a class="btn btn-secondary" href="{{ url_for('user.profile', name=user.name) }}">업로드된 포스트</a>
+    <a class="btn btn-secondary" href="{{ url_for('user.profile_saved', name=user.name) }}">저장된 포스트</a>
+    <a class="btn btn-secondary" href="#">태그된 포스트</a>
     <div class="card-columns">
-        {% if user.post_set %}
-            {% for post in user.post_set %}
+        {% if post_list %}
+            {% for post in post_list %}
                 {% set file_list = post.file_name.split(',') %}
                 {% with post=post, file_list=file_list %}
                     {% include "posts/post_card_small.html" %}

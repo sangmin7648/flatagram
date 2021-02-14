@@ -4,14 +4,21 @@
             <h6><strong><a href="{{ url_for('user.profile', name=post.user.name) }}">{{ post.user.name }}</a></strong></h6>
         </div>
         <div class="d-flex justify-content-end">
-            {% if g.user == post.user %}
-            <a class="btn btn-primary mr-2" href="{{ url_for('post.modify', post_id=post.id) }}">수정</a>
-            <a class="btn btn-primary" href="{{ url_for('post.delete', post_id=post.id) }}">삭제</a>
-            {% else %}
-                {% if post.user not in g.user.following %}
-                <a class="btn btn-primary" href="{{ url_for('user.follow', follow_name=post.user.name) }}">팔로우</a>
+            {% if g.user %}
+                {% if g.user == post.user %}
+                <a class="btn btn-primary mx-1" href="{{ url_for('post.modify', post_id=post.id) }}">수정</a>
+                <a class="btn btn-primary mx-1" href="{{ url_for('post.delete', post_id=post.id) }}">삭제</a>
                 {% else %}
-                <a class="btn btn-primary" href="{{ url_for('user.unfollow', unfollow_name=post.user.name) }}">언팔로우</a>
+                    {% if post.user not in g.user.following %}
+                    <a class="btn btn-primary" href="{{ url_for('user.follow', follow_name=post.user.name) }}">팔로우</a>
+                    {% else %}
+                    <a class="btn btn-primary" href="{{ url_for('user.unfollow', unfollow_name=post.user.name) }}">언팔로우</a>
+                    {% endif %}
+                {% endif %}
+                {% if post not in g.user.saved_post %}
+                    <a class="btn btn-primary mx-1" href="{{ url_for('post.save', post_id=post.id) }}">저장</a>
+                {% else %}
+                    <a class="btn btn-primary mx-1" href="{{ url_for('post.unsave', post_id=post.id) }}">저장취소</a>
                 {% endif %}
             {% endif %}
         </div>

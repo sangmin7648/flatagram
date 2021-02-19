@@ -37,6 +37,11 @@ saved_post_table = db.Table(
     db.Column('user_id', db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True),
     db.Column('post_id', db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), primary_key=True))
 
+post_user_tag_table = db.Table(
+    'post_user_tag',
+    db.Column('post_id', db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True))
+
 
 class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -47,6 +52,7 @@ class Posts(db.Model):
     created_date = db.Column(db.DateTime(), nullable=False)
     updated_date = db.Column(db.DateTime(), nullable=True)
     like = db.relationship('Users', secondary=post_like_table, backref=db.backref('post_like_set'))
+    user_tag = db.relationship('Users', secondary=post_user_tag_table, backref=db.backref('post_tag_set'))
 
 
 class Comments(db.Model):

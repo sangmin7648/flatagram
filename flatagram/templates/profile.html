@@ -25,7 +25,7 @@
     <hr>
     <a class="btn btn-secondary" href="{{ url_for('user.profile', name=user.name) }}">업로드된 포스트</a>
     <a class="btn btn-secondary" href="{{ url_for('user.profile_saved', name=user.name) }}">저장된 포스트</a>
-    <a class="btn btn-secondary" href="#">태그된 포스트</a>
+    <a class="btn btn-secondary" href="{{ url_for('user.profile_tagged', name=user.name) }}">태그된 포스트</a>
     <div class="card-columns">
         {% if post_list %}
             {% for post in post_list %}

@@ -18,6 +18,12 @@ def profile_saved(name):
     return render_template('profile.html', user=user, post_list=user.saved_post)
 
 
+@bp.route('/<string:name>/tagged')
+def profile_tagged(name):
+    user = Users.query.filter_by(name=name).first()
+    return render_template('profile.html', user=user, post_list=user.post_tag_set)
+
+
 @bp.route('/follow/<follow_name>')
 @login_required
 def follow(follow_name):

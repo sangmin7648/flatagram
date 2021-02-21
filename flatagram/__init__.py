@@ -1,7 +1,6 @@
 from flask import Flask, render_template
 from flask_migrate import Migrate
 
-import config
 import os
 
 migrate = Migrate()
@@ -13,7 +12,7 @@ def page_not_found(error):
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(config)
+    app.config.from_envvar('APP_CONFIG_FILE')
 
     # ORM
     from .models import db

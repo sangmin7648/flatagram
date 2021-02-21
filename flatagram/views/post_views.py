@@ -27,6 +27,7 @@ def upload():
         desc = form.desc.data
         post = Posts(user=g.user, desc=desc, created_date=datetime.now())
         db.session.add(post)
+        db.session.commit()
         if '#' in desc:
             extract_hashtag(desc, post)
         if '@' in desc:

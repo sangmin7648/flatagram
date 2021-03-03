@@ -3,6 +3,11 @@
 
 http://54.180.214.104/
 
+![image](https://user-images.githubusercontent.com/68796085/109760950-f543c380-7c32-11eb-8762-736486029dcd.png)
+![image](https://user-images.githubusercontent.com/68796085/109760975-fecd2b80-7c32-11eb-96f4-c6af07ca99e2.png)
+![image](https://user-images.githubusercontent.com/68796085/109760990-07bdfd00-7c33-11eb-839c-da8251188149.png)
+
+
 개발 과정
 https://velog.io/@sangmin7648/series/토이프로젝트-Flatagram
 
